@@ -25,59 +25,64 @@ public class UpdateCommonType {
      */
     public void update(UniqueTypes uniqueType, Item item) {
         qualityMultiplier = 1;
+        if (uniqueType.getConstantValue() == 0) {
+            switch (uniqueType) {
 
-        switch (uniqueType) {
-
-            case DefaultItem:
-            case AgedBrie: {
-                item.setQuality(calculateQuality(uniqueType.getUpdateOrder(), item.getQuality(), qualityMultiplier));
-            }
-            break;
-
-            case BackstagePasses: {
-                //after the concert
-                if (item.getSellIn() <= 0) {
-                    item.setQuality(0);
-                } else {
-                    //ten day or less
-                    if (item.getSellIn() <= 10) {
-                        qualityMultiplier = 2;
-                    }
-                    //five day or less
-                    if (item.getSellIn() <= 5) {
-                        qualityMultiplier = 3;
-                    }
+                case DefaultItem:
+                case AgedBrie: {
                     item.setQuality(calculateQuality(uniqueType.getUpdateOrder(), item.getQuality(), qualityMultiplier));
                 }
-            }
-            break;
-            case Conjured: {
-                //"Conjured" items degrade in Quality twice as fast as normal items
-                qualityMultiplier = 2;
-                item.setQuality(calculateQuality(uniqueType.getUpdateOrder(), item.getQuality(), qualityMultiplier));
-            }
-            break;
+                break;
 
-            default:
-            case Sulfuras: {
+                case BackstagePasses: {
+                    //after the concert
+                    if (item.getSellIn() <= 0) {
+                        item.setQuality(0);
+                    } else {
+                        //ten day or less
+                        if (item.getSellIn() <= 10) {
+                            qualityMultiplier = 2;
+                        }
+                        //five day or less
+                        if (item.getSellIn() <= 5) {
+                            qualityMultiplier = 3;
+                        }
+                        item.setQuality(calculateQuality(uniqueType.getUpdateOrder(), item.getQuality(), qualityMultiplier));
+                    }
+                }
+                break;
+                case Conjured: {
+                    //"Conjured" items degrade in Quality twice as fast as normal items
+                    qualityMultiplier = 2;
+                    item.setQuality(calculateQuality(uniqueType.getUpdateOrder(), item.getQuality(), qualityMultiplier));
+                }
+                break;
+
+                default:
+                case Sulfuras: {
                 //Do nothing, Sulfuras or not matched type.
-                //Sulfuras has constant quality equals 80 but sellIn changes as regular item - there is no info about constant sellIn value
-            }
+                    //Sulfuras has constant quality equals 80 but sellIn changes as regular item - there is no info about constant sellIn value
+                }
 
+            }
+        }else{
+            if(item.getQuality()!=uniqueType.getConstantValue())
+                item.setQuality(Math.abs(uniqueType.getConstantValue()));
         }
+        
         // After calculate quality change the sellInDate
         item.setSellIn(calculateSellInDate(item.getSellIn()));
     }
-    
+
     /**
-     * If quality is between 0(minimum parameter) and 50(maximum parameter) change it depends on order.
-     * When value is equal minminmal or maximum quality parameter
-     * check the order and update quality if it is possible.
-     * 
+     * If quality is between 0(minimum parameter) and 50(maximum parameter)
+     * change it depends on order. When value is equal minminmal or maximum
+     * quality parameter check the order and update quality if it is possible.
+     *
      * @param order ASC/DESC
-     * @param oldQuality 
+     * @param oldQuality
      * @param multiply
-     * @return 
+     * @return
      */
     private int calculateQuality(QualityUpdateOrder order, int oldQuality, int multiply) {
         int updatedQuality = oldQuality;
@@ -88,32 +93,35 @@ public class UpdateCommonType {
         if (oldQuality > Configuration.findIntConfigurationParameter(ConfigParameterType.MinQualityValue)
                 && oldQuality < Configuration.findIntConfigurationParameter(ConfigParameterType.MaxQualityValue)) {
             updatedQuality = order.equals(QualityUpdateOrder.DESC) ? oldQuality - qualityDiffValue : oldQuality + qualityDiffValue;
-        } 
-        //when value is equal minimal quality value or maximum check the order
+        } //when value is equal minimal quality value or maximum check the order
         else if ((oldQuality == Configuration.findIntConfigurationParameter(ConfigParameterType.MinQualityValue) && order.equals(QualityUpdateOrder.ASC))
                 || (oldQuality == Configuration.findIntConfigurationParameter(ConfigParameterType.MaxQualityValue) && order.equals(QualityUpdateOrder.DESC))) {
             updatedQuality = order.equals(QualityUpdateOrder.DESC) ? oldQuality - qualityDiffValue : oldQuality + qualityDiffValue;
         }
-        
+
         updatedQuality = checkForExtreme(updatedQuality);
-        
+
         return updatedQuality;
     }
-    
+
     private int calculateSellInDate(int oldSellIn) {
         return oldSellIn - 1;
     }
+
     /**
-     * In case after update with multiply more than 1 
-     * the value is too high or too low
+     * In case after update with multiply more than 1 the value is too high or
+     * too low
+     *
      * @param updatedQuality
-     * @return 
+     * @return
      */
     private int checkForExtreme(int updatedQuality) {
-        if( updatedQuality>Configuration.findIntConfigurationParameter(ConfigParameterType.MaxQualityValue))
-                return Configuration.findIntConfigurationParameter(ConfigParameterType.MaxQualityValue);
-        if( updatedQuality<Configuration.findIntConfigurationParameter(ConfigParameterType.MinQualityValue))
-                return Configuration.findIntConfigurationParameter(ConfigParameterType.MinQualityValue);
+        if (updatedQuality > Configuration.findIntConfigurationParameter(ConfigParameterType.MaxQualityValue)) {
+            return Configuration.findIntConfigurationParameter(ConfigParameterType.MaxQualityValue);
+        }
+        if (updatedQuality < Configuration.findIntConfigurationParameter(ConfigParameterType.MinQualityValue)) {
+            return Configuration.findIntConfigurationParameter(ConfigParameterType.MinQualityValue);
+        }
         return updatedQuality;
     }
 
