@@ -15,18 +15,7 @@ import static org.junit.Assert.*;
  * @author Robert Gaca
  */
 public class UpdaterTest {
-    
-    public UpdaterTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
+  
     /**
      * Test of oldUpdateMethod method, of class Updater.
      */
