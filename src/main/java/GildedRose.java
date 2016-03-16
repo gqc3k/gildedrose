@@ -13,7 +13,7 @@ public class GildedRose {
     public static void main(String[] args) {
 
         System.out.println("OMGHAI!");
-
+asdasda;
         items = new ArrayList<Item>();
         items.add(new Item("+5 Dexterity Vest", 10, 20));
         items.add(new Item("Aged Brie", 2, 0));
@@ -22,8 +22,8 @@ public class GildedRose {
         items.add(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20));
         items.add(new Item("Conjured Mana Cake", 3, 6));
         
-        System.out.println(items.get(222));
-
+        
+        
         //Simulate the days
         for (int i = 0; i < 60; i++) {
             for (Item it : items) {
