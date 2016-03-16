@@ -15,7 +15,7 @@ public enum UniqueTypes {
     Sulfuras(QualityUpdateOrder.DESC,"Sulfuras","Regular",80,false),
     BackstagePasses(QualityUpdateOrder.ASC,"Backstage passes","Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but Quality drops to 0 after the concert",0,true),
     Conjured(QualityUpdateOrder.DESC,"Conjured","items degrade in Quality twice as fast as normal items",0,true),
-    OldOne(QualityUpdateOrder.ASC,"OLD","Some old one",0,true);
+    OldOne(QualityUpdateOrder.ASC,"OLD","Some old one",0,true)
     
     private UniqueTypes(QualityUpdateOrder updateOrder, String description, String  updateFormula,int constantValue,boolean possibleToSell) {
         this.qualityUpdateOrder = updateOrder;
