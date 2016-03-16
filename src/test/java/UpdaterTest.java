@@ -30,7 +30,7 @@ public class UpdaterTest {
         instance.oldUpdateMethod(itemsAgedBrie);
        
         assertEquals(itemsAgedBrie.get(0).getSellIn(),9);assertEquals(itemsAgedBrie.get(0).getQuality(),11);
-//        assertEquals(itemsAgedBrie.get(1).getSellIn(),1);assertEquals(itemsAgedBrie.get(1).getQuality(),50);
+        assertEquals(itemsAgedBrie.get(1).getSellIn(),1);assertEquals(itemsAgedBrie.get(1).getQuality(),50);
 //        assertEquals(itemsAgedBrie.get(2).getSellIn(),-1);assertEquals(itemsAgedBrie.get(2).getQuality(),1);
         
         List<Item> itemsDefault = new ArrayList<Item>();
