@@ -21,6 +21,8 @@ public class GildedRose {
         items.add(new Item("Sulfuras, Hand of Ragnaros", 0, 80));
         items.add(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20));
         items.add(new Item("Conjured Mana Cake", 3, 6));
+        
+        System.out.println(items.get(222));
 
         //Simulate the days
         for (int i = 0; i < 60; i++) {
